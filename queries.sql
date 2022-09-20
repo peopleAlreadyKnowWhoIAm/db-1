@@ -1,5 +1,5 @@
 -- 1. Get all songs by author
-set
+SET
     @author_name = 'Harry Styles';
 
 SELECT
@@ -46,7 +46,7 @@ SELECT
     num_of_downloads
 FROM
     song
-    left join song_commercial on song.id = song_id
+    LEFT JOIN song_commercial ON song.id = song_id
 WHERE
     EXISTS(
         SELECT
@@ -112,12 +112,12 @@ SELECT
     num_of_downloads
 FROM
     song
-    left join song_commercial on id = song_id
+    LEFT JOIN song_commercial ON id = song_id
 ORDER BY
     id;
 
 -- 3. Get all songs from album
-set
+SET
     @album_name = 'Special';
 
 SELECT
@@ -164,7 +164,7 @@ SELECT
     num_of_downloads
 FROM
     song
-    left join song_commercial on id = song_id
+    LEFT JOIN song_commercial ON id = song_id
 WHERE
     album_id IN (
         SELECT
@@ -176,7 +176,7 @@ WHERE
     );
 
 -- 4. Get albums by label
-set
+SET
     @label_name = 'Columbia Records';
 
 SELECT
@@ -204,19 +204,19 @@ SELECT
     num_of_downloads
 FROM
     album
-    LEFT JOIN album_comercial ON id = album_id
-where
-    label_id in (
-        select
+    LEFT JOIN album_commercial ON id = album_id
+WHERE
+    label_id IN (
+        SELECT
             id
-        from
+        FROM
             label
-        where
+        WHERE
             name = @label_name
     );
 
 -- 5. get song by genre
-set
+SET
     @genre = 'Hip-Hop';
 
 SELECT
@@ -255,7 +255,7 @@ SELECT
     num_of_downloads
 FROM
     song
-    left join song_commercial on id = song_id
+    LEFT JOIN song_commercial ON id = song_id
 WHERE
     genre_id IN (
         SELECT
@@ -267,7 +267,7 @@ WHERE
     );
 
 -- 6. Get all songs by user
-set
+SET
     @user_id = 1;
 
 SELECT
@@ -275,7 +275,7 @@ SELECT
     name,
     length,
     album_id,
-(
+    (
         SELECT
             GROUP_CONCAT(name)
         FROM
@@ -304,17 +304,17 @@ SELECT
     num_of_downloads
 FROM
     song
-    left join song_commercial on song.id = song_id
-where
-    id in (
-        select
+    LEFT JOIN song_commercial ON song.id = song_id
+WHERE
+    id IN (
+        SELECT
             song_id
-        from
+        FROM
             songs_saved_by_user
-        where
+        WHERE
             user_id = @user_id
     )
-union
+UNION
 SELECT
     id,
     name,
@@ -349,7 +349,7 @@ SELECT
     num_of_downloads
 FROM
     song
-    left join song_commercial on id = song_id
+    LEFT JOIN song_commercial ON id = song_id
 WHERE
     album_id IN (
         SELECT
@@ -361,7 +361,7 @@ WHERE
     );
 
 -- 7. Get all albums by user
-set
+SET
     @user_id = 1;
 
 SELECT
@@ -389,38 +389,38 @@ SELECT
     num_of_downloads
 FROM
     album
-    LEFT JOIN album_comercial ON id = album_id
-where
-    id in (
-        select
+    LEFT JOIN album_commercial ON id = album_id
+WHERE
+    id IN (
+        SELECT
             album_id
-        from
+        FROM
             albums_saved_by_user
-        where
+        WHERE
             user_id = @user_id
     );
 
 -- 8. Get users playlists by user
-select
+SELECT
     id,
     playlist.name,
     (
-        select
+        SELECT
             name
-        from
+        FROM
             user
-        where
+        WHERE
             id = user_id
-    ) as 'user name',
+    ) AS 'user name',
     user_id
-from
-    user_playlist_info as playlist;
+FROM
+    user_playlist_info AS playlist;
 
 -- 9. Get all songs by playlist
-set
+SET
     @playlist_id = 2;
 
-select
+SELECT
     id,
     name,
     length,
@@ -462,24 +462,24 @@ select
     ) AS genre,
     price,
     num_of_downloads
-from
+FROM
     song
-    left join song_commercial on song.id = song_id
-where
-    id in (
-        select
+    LEFT JOIN song_commercial ON song.id = song_id
+WHERE
+    id IN (
+        SELECT
             song_id
-        from
+        FROM
             playlist_has_song
-        where
+        WHERE
             user_playlist_info_id = @playlist_id
     );
 
 -- 10. Get all songs by user genres
-set
+SET
     @user_id = 1;
 
-select
+SELECT
     id,
     name,
     length,
@@ -521,15 +521,15 @@ select
     ) AS genre,
     price,
     num_of_downloads
-from
+FROM
     song
-    left join song_commercial on song.id = song_id
-where
-    genre_id in (
-        select
+    LEFT JOIN song_commercial ON song.id = song_id
+WHERE
+    genre_id IN (
+        SELECT
             genre_id
-        from
+        FROM
             user_prefer_genre
-        where
+        WHERE
             user_id = @user_id
     );
