@@ -1,3 +1,4 @@
+use Labor_SQL;
 -- 73 variant
 -- 1
 SELECT
@@ -56,24 +57,9 @@ WHERE
 SELECT
     maker
 FROM
-    (
-        SELECT
-            DISTINCT maker
-        FROM
-            Product
-    ) AS pr
-WHERE
-    EXISTS(
-        SELECT
-            *
-        FROM
-            Product AS pr_i
-            LEFT JOIN PC AS pc ON pr_i.model = pc.model
-        WHERE
-            pr_i.type = 'PC'
-            AND pr.maker = pr_i.maker
-            AND pc.speed >= 750
-    );
+    Product right join PC on Product.model = PC.model
+group by maker
+having max(PC.speed) >=750;
 
 -- 6
 SELECT
@@ -128,7 +114,7 @@ FROM
 
 -- 10
 SELECT
-    name
+    *
 FROM
     (
         SELECT
@@ -143,4 +129,4 @@ FROM
             Outcomes
     ) AS ships
 WHERE
-    name RLIKE '\s.*\s';
+    name RLIKE '.+\\s.+\\s.+';

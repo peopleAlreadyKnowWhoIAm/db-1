@@ -204,7 +204,7 @@ SELECT
     num_of_downloads
 FROM
     album
-    LEFT JOIN album_comercial ON id = album_id
+    LEFT JOIN album_commercial ON id = album_id
 where
     label_id in (
         select
@@ -389,7 +389,7 @@ SELECT
     num_of_downloads
 FROM
     album
-    LEFT JOIN album_comercial ON id = album_id
+    LEFT JOIN album_commercial ON id = album_id
 where
     id in (
         select
