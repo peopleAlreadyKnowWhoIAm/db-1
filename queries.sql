@@ -1,3 +1,5 @@
+use itunes;
+
 -- 1. Get all songs by author
 SET
     @author_name = 'Harry Styles';
@@ -476,7 +478,7 @@ WHERE
     );
 
 -- 10. Get all songs by user genres
-SET
+set	
     @user_id = 1;
 
 SELECT
