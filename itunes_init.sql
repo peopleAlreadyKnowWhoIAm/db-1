@@ -23,7 +23,7 @@ CREATE TABLE album (
 
 -- Table genre
 CREATE TABLE genre (
-  id INT NOT NULL PRIMARY KEY,
+  id INT NOT NULL auto_increment PRIMARY KEY,
   name VARCHAR(45) NOT NULL
 );
 
@@ -58,7 +58,7 @@ CREATE TABLE user (
 
 -- Table user_playlist_info
 CREATE TABLE user_playlist_info (
-  id INT NOT NULL PRIMARY KEY,
+  id INT NOT NULL PRIMARY KEY auto_increment,
   user_id INT NOT NULL,
   name VARCHAR(45) NOT NULL
 );
@@ -91,13 +91,6 @@ CREATE TABLE playlist_has_song (
   PRIMARY KEY (user_playlist_info_id, song_id)
 );
 
--- Table song_commercial
-CREATE TABLE song_commercial (
-  song_id INT NOT NULL PRIMARY KEY,
-  price DECIMAL(8, 2) NOT NULL,
-  num_of_downloads INT NOT NULL
-);
-
 -- Table user_credential
 CREATE TABLE user_credential (
   user_id INT NOT NULL PRIMARY KEY,
@@ -118,12 +111,6 @@ CREATE TABLE album_has_author (
   PRIMARY KEY (album_id, author_id)
 );
 
--- Table album_commercial
-CREATE TABLE album_commercial (
-  album_id INT NOT NULL PRIMARY KEY,
-  price DECIMAL(8, 2) NOT NULL,
-  num_of_downloads INT NOT NULL
-);
 
 -- ---------------------------------------------------------------
 -- Constraints section
@@ -139,13 +126,6 @@ SET
   NULL ON UPDATE CASCADE;
 
 CREATE INDEX inx_album_name ON album(name);
-
--- album_commercial
-ALTER TABLE
-  album_commercial
-ADD
-  CONSTRAINT fk_album_commercial_album_id -- PK
-  FOREIGN KEY (album_id) REFERENCES album(id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- genre
 CREATE INDEX inx_genre_name ON genre(name);
@@ -170,13 +150,6 @@ SET
   NULL;
 
 CREATE INDEX inx_song_name ON song(name);
-
--- song commercial
-ALTER TABLE
-  song_commercial
-ADD
-  CONSTRAINT fk_song_commercial_song_id -- PK
-  FOREIGN KEY (song_id) REFERENCES song(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 -- author
 CREATE INDEX inx_author_name ON author(name);
@@ -356,8 +329,8 @@ INSERT INTO
 VALUES
   (1, 'Вілков Ігор', 'emeal1@gmailc.om'),
   (2, 'Завадка Богдан', 'emeal@gmailc.om'),
-  (3, 'Шийка	Остап', 'emeal3@gmailc.om'),
-  (4, 'Гринишин	Анна', 'emeal4@gmailc.om'),
+  (3, 'Шийка Остап', 'emeal3@gmailc.om'),
+  (4, 'Гринишин Анна', 'emeal4@gmailc.om'),
   (5, 'Іжик Денис', 'emeal5@gmailc.om'),
   (6, 'Мальчик Володимир', 'emeal6@gmailc.om'),
   (7, 'Рущак Володимир', 'emeal7@gmailc.om'),
@@ -365,10 +338,10 @@ VALUES
   (9, 'Севастьянов Віталій', 'emeal9@gmailc.om'),
   (10, 'Мороченець Максим', 'emeal10@gmailc.om'),
   (11, 'Бондаренко	Ксенія', 'emeal11@gmailc.om'),
-  (12, 'Мамедова	Софія', 'emeal12@gmailc.om'),
-  (13, 'Лукачович	Павло', 'emeal13@gmailc.om'),
+  (12, 'Мамедова Софія', 'emeal12@gmailc.om'),
+  (13, 'Лукачович Павло', 'emeal13@gmailc.om'),
   (14, 'Соколов Микита', 'emeal14@gmailc.om'),
-  (15, 'Пліш	Олег', 'emeal15@gmailc.om');
+  (15, 'Пліш Олег', 'emeal15@gmailc.om');
 
 -- Data for table user_playlist_info
 INSERT INTO
@@ -448,25 +421,6 @@ VALUES
   (3, 12),
   (3, 15);
 
--- Data for table song_commercial
-INSERT INTO
-  song_commercial (song_id, price, num_of_downloads)
-VALUES
-  (1, 1.00, 13303),
-  (2, 1.50, 42424),
-  (3, 2.00, 41564),
-  (4, 1.00, 56213),
-  (5, 2.00, 42612),
-  (6, 0.50, 121213),
-  (7, 0.80, 42162),
-  (8, 0.25, 43641242),
-  (9, 0.50, 424132),
-  (10, 0.35, 124661),
-  (11, 0.40, 4212343),
-  (12, 0.21, 213411),
-  (13, 0.55, 4214631),
-  (14, 0.80, 21466),
-  (15, 0.74, 465216);
 
 -- Data for table user_credential
 INSERT INTO
@@ -529,18 +483,3 @@ VALUES
   (9, 15),
   (11, 19);
 
--- Data for table album_commercial
-INSERT INTO
-  album_commercial (album_id, price, num_of_downloads)
-VALUES
-  (1, 5, 545424),
-  (2, 10, 5845566),
-  (3, 7, 4555455),
-  (4, 1, 54545678),
-  (5, 22, 455665466),
-  (6, 10, 545555),
-  (7, 12, 565645456),
-  (8, 8, 455664222),
-  (9, 7, 22655455),
-  (10, 11, 545566),
-  (11, 13, 54456565);
